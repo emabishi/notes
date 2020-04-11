@@ -1,0 +1,488 @@
+Relational databases organize data in tables
+
+Table/Relation - collection of data organized into rows and columns
+
+
+SQL DATA TYPES
+===============
+INTEGER - + OR - whole number
+TEXT - Date string
+DATE / DATETIME - Date formatted as YYYY-MM-DD
+REAL / DECIMAL - Decimal value
+BOOLEAN - true / false
+
+STRUCTURE OF A SQL STATEMENT
+============================
+Statements = COntain commands to SQL database, always end in a semicolon
+Statements can consist of multiple commands i.e. SELECT * FROM celebs;
+SELECT, FROM are clauses
+
+SELECT
+======
+Select values from a table 
+SELECT * FROM <TABLE-NAME>
+SELECT <COLUMN-NAME> FROM <TABLE-NAME>
+
+CREATE TABLE
+===========
+CREATE TABLE <TABLE-NAME> ([PARAMETER-NAME PARAMETER-TYPE])
+i.e. CREATE TABLE inventory(id INTEGER, name TEXT, count INTEGER)
+
+INSERT INTO
+===========
+
+INSERT INTO <TABLE-NAME> (PARAMETER-NAMES,) VALUES (PARAMETER-VALUES,)
+i.e. INSERT INTO inventory (1, 'Mango', 20);
+
+INSERT INTO <TABLE-NAME> (PARAMETER-NAMES,) VALUES (PARAMETER-VALUES),(PARAMETER-VALUES), ...;
+SELECT statements always return a new table called the result set
+SELECT always used in queries
+SELECT <COLUMN-NAME) FROM <TABLE-NAME> 
+SELECT * FROM <TABLE-NAME>
+
+ALTER TABLE - Modify a table
+============
+ALTER TABLE <TABLE-NAME> ADD COLUMN <NEW-COL-NAME> <NEW-COL-TYPE>;
+
+UPDATE
+======
+UPDATE <TABLE-NAME> SET <COLUMN-NAME> = <NEW-VALUE> WHERE <COLUMN-NAME> = <COLUMN-VALUE>
+i.e. UPDATE inventory SET name = 'Oranges' WHERE id = 1;
+
+DELETE
+======
+Deletes from a table
+DELETE * FROM <TABLE-NAME> WHERE <COLUMN-NAME> IS NULL;  
+// Delete all rows from a table where there are no values under a column name
+
+CONSTRAINTS
+==========
+Columns can be constrained to have certain values
+
+CREATE TABLE <TABLE-NAME>(<COL-NAME> <COL-TYPE> <CONSTRAINT>, ....);
+i.e. CREATE TABLE inventory(id INTEGER PRIMARY KEY, name TEXT NOT NULL, count INTEGER DEFAULT 2)
+
+QUERYING
+========
+Used to query databases
+SELECT * FROM <TABLE-NAME>
+SELECT <COL-NAME> <COL-NAME2> FROM <TABLE-NAME>;
+SELECT <COL-NAME> AS 'NEW-NAME' FROM <TABLE-NAME>; - Rename a column in a table using an alias
+i.e. SELECT name AS 'Title' FROM books;
+
+DISTINCT
+========
+Filter out duplicates
+SELECT DISTINCT <COLUMN-NAME> FROM <TABLE-NAME>;
+SELECT DISTINCT author FROM books;
+SELECT DISTINCT <COLUMN-NAME1>, <COLUMN-NAME2> FROM <TABLE-NAME>;
+SELECT DISTINCT author, publisher FROM books;
+A select with multiple distinct values will select a rows with a dstinct combination of the specified column names
+
+WHERE
+=====
+Filter query results based on criteria, to return rows where the condition specified is true
+Wrap text values with single quotes if passing to WHERE
+
+SELECT * WHERE author = 'JRR Tolkien';
+
+Conditionals
+= Equal To
+!= Not equal to / <> for some
+> Greater than
+< Less than
+>= Greater than or equal to
+<= Less than or equal to
+
+LIKE
+===
+Used to refine what query results are returned.
+Will return values that are similar.
+
+SELECT * FROM books WHERE name LIKE 'Se_en';
+i.e. Will select all books where the names of the books start with Se and end with en;
+
+% = WIldcard - SELECT * FROM books WHERE name LIKE 'Sev%'
+i.e. Will select all books where the name starts with Sev;
+
+
+LIKE is not case sensitive
+
+SELECT * FROM books WHERE name LIKE '%Hobb%';
+
+SELECT * FROM <TABLE-NAME> WHERE <COLUMN-NAME> LIKE '%<STRING>%';
+
+
+IS NULL
+=======
+IS NULL / IS NOT NULL
+
+BETWEEN
+=======
+Return results of a query between a min and a max
+Can take numbers, text or dates
+
+SELECT * FROM books WHERE sales BETWEEN 1,000 AND 2,000;
+SELECT * FROM books WHERE name BETWEEN 'A' AND 'D';
+Between goes up to the second value. In the above the query will return all books until where name begins with D
+
+AND
+===
+Used to combine multiple conditions in a where clause to make the result more useful
+Wrap text values in single quotes before passing to AND
+
+SELECT * FROM inventory WHERE name != NULL and  'publisher' IS 'Press';
+
+OR
+==
+Return values that fulfill the query if one of the conditions specified is true
+Wrap text values in single quotes before passing to or
+
+SELECT * FROM inventory WHERE name = 'Hobbit' OR name = 'Silmarilion';
+
+IN
+==
+Provide a valid list of values for which the query should return
+Wrap text values in single quotes before passing to in
+
+SELECT * FROM station_data WHERE MONTH IN (3,6,9,10);
+
+Will select all values with month 3, 6, 9 and 10;
+
+NOT IN
+======
+Will return all values apart from those that meet the criteria
+Wrap text values in single quotes before passing to not  in
+
+SELECT * FROM station_data WHERE MONTH NOT IN (2,4,8);
+Will select all values where the  months are not 2, 4 and 8
+
+SELECT * FROM station_data WHERE MONTH % 3 = 0;
+Will select all values where the month is divisible by 3 without a reminder
+
+
+ORDER BY
+=======
+Used to sort the results alphabetically or numerically
+ORDER BY year DESC; = Highest to lowest (Z-A)
+ORDER BY year ASC; = Lowest to highest; (A-Z)
+ORDER BY year;
+The column that the order by is acting on isn't necessarily returned
+
+SELECT year, author FROM books WHERE publisher IS 'Kingsley' ORDER BY year DESC;
+
+
+LIMIT
+=====
+Restrict query to return a certain number of entries
+SELECT * FROM inventory WHERE count < 300 LIMIT 50;
+
+CASE
+====
+Used to return different outputs from a SELECT statement
+
+SELECT *
+  CASE 
+    WHERE genre IS 'romance' THEN 'Chill'
+    WHERE genre IS 'comedy' THEN 'Chill'
+    ELSE 'Fast paced'
+  END AS 'Mood'
+FROM movies;
+
+
+AGGREGATE FUNCTIONS
+===================
+Aggregate functions will never include null values in their calculations.
+Only non null values will be considered
+
+COUNT
+====
+Return number of rows that match the criteria
+Function that takes the name of a column as an argument and counts the number of non empty values in the col
+SELECT COUNT(*) FROM inventory WHERE count = 0;
+
+If you pass COUNT() a column instread of a star, it will count the number of non null values in that column
+i.e. SELECT COUNT(column_name) AS data FROM table_name;
+
+SUM
+===
+Function that takes the name of a column as an argument and returns the sum of all values in that column
+SELECT SUM(downloads) FROM fake_apps;
+
+MAX/MIN
+=======
+Function that returns the max/min value in a column.
+Takes the name of the column as an argument and returns the largest value in that column
+
+SELECT MAX(downloads) FROM fake_apps;
+SELECT MIN(count) FROM inventory;
+
+AVG
+===
+Function that returns the average value in a column. 
+Takes the name of the column as an argument
+Returns the average value of the values in the given column
+
+
+SELECT AVG(count) FROM inventory;
+
+ROUND
+=====
+Function that takes 2 arguments
+(column-name, no. of decimal places)
+
+SELECT name, author, ROUND(price, 2) FROM inventory;
+SELECT name, AVG(ROUND, 2)) FROM inventory;
+
+GROUP BY
+=========
+Used with aggregate functions like sum, count, avg, min and max
+Used in conjunction with the SELECT statement to group data
+i.e.
+ SELECT category, SUM(count) FROM inventory WHERE count > 100 GROUP BY count;
+SELECT category, SUM(downloads) AS total_downloads FROM fake_apps GROUP BY category;
+
+The query above returns the sum of all downloads for a category, returning
+category |  total_downloads |
+---------| -----------------|
+
+i.e. year, rain;
+SELECT year, COUNT(*) AS data FROM STATION_DATA WHERE rain=0 GROUP BY year;
+year | data
+---- | ----
+1940 | 3
+2010 | 5
+
+table -> station_data,report_code, year, month, day, dew_point, station_pressure, visibility ...
+SELECT year, month, COUNT(*) AS record_count FROM station_data
+  WHERE tornado = 1
+  GROUP BY year, month;
+
+returns
+-------
+year | month | count
+---- | ----- | ------
+2010 | 06    |   23
+
+HAVING
+======
+Used to limit the results of a query based on an aggregate property
+
+
+========================
+QUERYING MULTIPLE TABLES
+========================
+
+JOIN
+====
+Used to combine tables
+Also called inner join
+Will only return results for both tables that match the on condition and will leave out rows that
+don't have results in both tables
+
+Works like a conditional AND
+
+orders -> order_id, customer_id, subscription_id, purchase_date
+subscriptions -> subscription_id, description, price_per_month, subscription_length
+customers -> customer_id, customer_name, address
+
+Join subscriptions and orders
+
+SELECT * FROM orders
+JOIN subscriptions
+  ON orders.subscription_id = subscriptions.subscription_id
+WHERE subscription.description = 'Fashion';
+
+The query above joins the orders and subscriptions table through the subscription id in both tables,
+returning values where the subscription description is Fashion
+
+Join orders and customers
+
+SELECT * FROM orders
+JOIN customers
+  ON orders.customer_id = customers.customer_id;
+
+LEFT JOINS
+===========
+Used to combine tables, keeping some unmatched rows
+Will keep all the rows in the first table regardless of whether there is a matching row in the second table
+The final result will keep all rows of the first table but will omit the unmatched row from the second table
+
+Works like a conditional OR for the join
+
+PRIMARY VS FOREIGN KEYS
+=======================
+A primary key uniquely identitifies each row of a table
+
+Primary key requirements
+-----------------------
+Not NULL
+Unique in the primary key column
+A table cannot have more than one primary key column
+
+A foreigh key is a column in a table that is a primary key in another table
+
+CROSS JOIN
+==========
+Combine all rows in one table with all rows in another table
+Don't require an ON statement
+Used to compare each row od a table to a list of values
+
+UNION
+======
+Stacks one table onto another
+Excludes duplicate rows
+SELECT * FROM table1 UNION SELECT * FROM table2;
+
+Rules for unions
+----------------
+Tables must have the same number of columns
+The columns must have the same data types in the same order as the first table
+
+WITH
+====
+Use the results from one query in another
+Allows us to define one or more temporary tables that can be used in the final query
+
+customers -> customer_id, customer_name, address
+subscriptions -> subscription_id, description, price_per_month, subscription_length
+orders -> order_id,customer_id,subscription_id,purchase_date
+
+Q -> Find no of subscriptions each customer has i.e. customer_name | subscriptions
+						    -------------- | --------------
+
+1st query 
+---------
+SELECT customer_id, COUNT(subscription_id) AS 'subscriptions' FROM orders GROUP BY customer_id;
+This returns customer_id | subscriptions (subscription count)
+	    ------------ | ----------------------------------
+
+WITH customer_id_subscriptions AS (
+  SELECT customer_id, COUNT(subscription_id) 
+  AS 'subscriptions' FROM orders
+GROUP BY customer_id;
+
+
+2nd query
+---------
+SELECT customers.customer_name, previous_results.subscriptions
+FROM customers
+JOIN previous_results
+ON customers.customer_id = previous_results.customer_id;
+
+
+AS
+==
+SQL can dynamically create computed columns when we run a query. i.e.
+We can use AS to name an alias column mame to return the computed data under
+We can also alias column names that exist
+
+PRODUCT TABLE -> product_id, description, price
+SELECT PRODUCT_ID, DESCRIPTION, PRICE, PRICE * 1.07 AS TAXED_PRICE FROM PRODUCT
+
+PRODUCT_ID | DESCRIPTION | PRICE | TAXED_PRICE
+---------- | ----------- | ----- | -----------
+
+SELECT PRODUCT_ID, DESCRIPTION, PRICE AS UNTAXED_PRICE, PRICE * 1.07 AS TAXED_PRICE FROM PRODUCT;
+
+PRODUCT_ID | DESCRIPTION | UNTAXED_PRICE | TAXED_PRICE
+---------- | ----------- | ------------- | -----------
+
+Rounded Price
+==============
+SELECT PRODUCT_ID, DESCRIPTION, PRICE, ROUND(PRICE * 1.07),2) AS TAXED_PRICE FROM PRODUCT;
+
+OR
+
+SELECT PRODUCT_ID, DESCRIPTION, PRICE, ROUND(PRICE * 1.07, 2) AS TAXED_PRICE FROM PRODUCT;
+
+CONCATENATE
+===========
+Works with any data type
+Treats the data as text when merging
+Symbol || 
+
+CUSTOMER TABLE -> CUSTOMER_ID, NAME, REGION, STREET_ADDRESS, CITY, STATE, ZIP
+
+SELECT NAME, CITY || ' ' || STREET_ADDRESS || ',' || STATE  AS ADDRESS FROM CUSTOMER;
+
+Returns
+
+NAME | STREET_ADDRESS
+---- | --------------
+
+
+DATE FUNCTIONS
+==============
+Are in the form YYYY-MM-DD by default -> ISO8601 format
+We can compare one date to another
+i.e. SELECT '2020-09-06' > '2019-05-22';
+
+If you don't use the ISO format, SQL will compare them as text and not dates and will check
+if the 1st comes before the 2nd alphabetically
+
+Now - SELECT DATE('now');
+Yesterday - SELECT DATE('now', '-1 day');
+Adding month and day modifiers - SELECT DATE('now', '+3 month', '-1 day'); 
+The above query will return today's date + 3 months - 1 day
+
+
+TIME FUNCTIONS
+==============
+Default format - HH:MM:SS - ISO8601
+Time values can be compared by default
+i.e. SELECT * FROM alarms WHERE time > '08:30';
+SELECT '16:31' < '08:31';
+
+SELECT TIME('now');
+
+Time transformation
+-------------------
+You can add and subtract hours, minutes and seconds
+
+SELECT TIME('16:31', '+1 minute');
+
+DATE/TIME FUNCTIONS - DATETIME()
+===================
+YYYY-MM-DD HH:MM:SS
+SELECT '2020-09-03 17:22:20';
+SELECT DATETIME('2020-12-31 15:22:59', '-1 day', '+3 hour');
+
+
+BOOLEANS
+========
+True = 1
+False = 0
+
+SELECT * FROM payments WHERE paid = 1;
+
+Qualifying for true conditions doesn't need to be explicit
+SELECT * FROM payments paid;
+
+Qualifying for false conditions has to be explicit
+SELECT * FROM station_data WHERE tornado = 1 AND hail = 0;
+SELECT * FROM accounts WHERE amount = 10000 AND overdraft = 0;
+
+You can use the NOT keyword to qualify data as false
+SELECT * FROM station_data WHERE NOT hail AND tornado;
+
+
+NULL
+====
+Cannot be determined by =
+You need to use IS NULL or IS NOT NULL to identify a NULL value
+The coalesce function will turn a possibly null value into a specified default value if it is null
+Otherwise, it will leave the value as is
+i.e. SELECT ^ FROM station_data WHERE coalesce(precipitation, 0) AS rainfall FROM station_data;
+SELECT report_code, coalesce(precipitation, 0) AS rainfall FROM station_data;
+
+
+GROUPING CONDITIONS
+===================
+Use parentheses to group conditions that you want to be evaluated together
+SELECT * FROM station_data WHERE (rain = 1 AND temperature <=31) OR snow_depth > 0;
+
+
+
+
+

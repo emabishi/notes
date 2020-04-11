@@ -1,0 +1,85 @@
+Rotate display to normal - xrandr --output $(xrandr | grep 'primary' | cut -d' ' -f1) --rotate normal
+search in terminal- ctrl + r
+ascii char set - man ascii
+see hex of char - pipe to hexdump
+df - file system space usage uname - system info
+free -h  - See free and used memory
+id - see user id
+env - environment variables
+
+
+VIM COMMANDS
+------------
+set number, set nonumber - turn line numbers on and off
+:<line-number> - jump to line number in a file
+vi +<line-number> <filepath> - open file at filepath and jump to line number
+vi +/<text> <filepath> - open file at filepath and jump to first line containing <text>
+set - list all vim configs so far
+<number>j / <number>k / <number>h / <number>l - move cursor number lines down, up, left, right
+sed -i "$ a texttoappend" <filepath> - append texttoappend to filepath, i edit file in place, $ find end of file, a append
+Esc + A - append text at end of line
+Esc + x - delete char at prompt
+dw - delete word beginning at prompt
+d$ - delete from prompt to end of line
+. - repeat previous command
+:vnew - open new window beside
+:new <file-name.txt> - open new window below
+NERDTreeToggle - turn nerd tree on + off
+y - copy/yank text
+p - paste text
+dG - delete up to last line from prompt (use gg to get to the beginning of the page)
+:%d - in normal mode - delete all lines in page
+:(x)d - in normal mode - delete line number x
+:vsp - split window horizontally copying over current file
+:vsp <filepath> : split window horizontally opening file at file path
+Ctrl+f - move up a page
+Ctrl+b - move down a page
+Ctrl+d - move down 1/2 a page
+Ctrl+u - move up 1/2 a page
+
+VIM OPERATORS AND MOTIONS
+d - delete operator
+we$ - motions -
+   w - delete until start of next word 
+   e - delete to the end of the current word 
+   $ - delete to the end of the line
+Pressing just the motion will move the prompt 
+
+
+
+TMUX
+----
+WINDOWS
+-------
+Ctrl+b + c   --> create new window
+Ctrl+b + , ----> rename current window
+Ctrl+b + p ----> previous window
+Ctrl+b + n ----> next window
+Ctrl+b + w -----> List open windows
+Ctrl+b + <number>  ---> Switch to window number
+Ctrl+b + q <number> ---> Show pane numbers , switch to pane of number <number>
+
+PANES
+-----
+Split windows
+Ctrl+b + %  ----> Split vertically
+Ctrl+b + : ------> Named command - split-window
+Ctrl+b + ->  ----> Move to right pane
+Ctrl+b + <-  ---> Move to left pane
+Ctrl+b + o   ----> Cycle through panes
+Ctrl+b + &  -----> Kill current window
+Ctrl+b + ?  -----> List all key bindings
+
+
+SESSIONS
+--------
+tmux new -s <name> ---> create named session
+Ctrl+b + d ---> detach from session
+tmux list-sessions ---> List all running sessions
+tmux attach -t <name> ---> Reattach to session name <name>
+
+COMMANDS
+--------
+Ctrl+b + : kill-window  ---> Kills current window
+Ctrl+b + : kill-window -a   ----> Kills all but current window
+
