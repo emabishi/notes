@@ -1,0 +1,65 @@
+Operating system:
+- Manages computer hardware
+- Provides basis for application programs
+- Acts as intermediary between the user and hardware
+
+Computer can be divided into 4 systems
+1. Hardware
+2. Operating system
+3. Application programs
+4. Users
+
+Hardware includes: CPU, memory, input output devices provide compute resources
+Application programs define the way in which the hardware resources are used to solve computing problems
+Operating system controls the hardware and coordinates its use among the various application programs for different users. 
+Operating system provides the means for proper use of the hardware, software and data resources of a computer
+- The operating system manages system resources, acting like a resource allocator.
+- The operating system must decide how to efficiently allocate resources to applications and users in order to operate the computer system efficiently
+- The O/S is also a control program. It manages the execution of user programs in order to prevent errors and improper use of the computer
+- The O/S both allocates and controls resources
+
+What is an operating system?
+----------------------------
+The one program running at all times on the computer i.e. the kernel
+
+
+Types of programs
+-----------------
+System programs - Are associated with the operating system but are not part of th kernel
+Application programs - All programs not associated with the operation of the system
+
+COMPUTER SYSTEM ORGANISATION
+----------------------------
+- Modern general purpose computer consists of:
+  - >= 1 CPU
+  - Several device controllers connected through a common bus that provides shared access to memory
+  - Each controller is in charge of a specific type of device (disk drives, audio devices, video displays)
+- The CPU and the device controllers can execute concurrently, competing for memory.
+- To ensure orderly access to the sahred memory, a memory controller is provided whose function is to synchronise access to memory
+
+- The initial program(firmware) ran on start/boot is stored in ROM or EEPROM (Erasable programmable Read Only Memory)
+- It initialises all aspects of the system - CPU registers, device controllers, memory ..
+- It must know how to load the operating system and also how to start executing the system. It must locate and load the O/S kernel into memory
+- Once the O/S is loaded into memory, the O/S then starts executing its first process then waits for an event to occur
+- The occurrence of an event is usually signalled by an interrupt from the hardware or software.
+-  Hardware/Software may trigger an interrupt at any time by sending an interrupt signal to the CPU
+- When the CPU is interrupted, it stops what it is doing and transfers execution to a fixed location that contains the starting address where the service for the routine is located.
+- The interrupt service executes and on completion, the CPU resumes the interrupted computation
+
+
+Storage structure
+-----------------
+- CPU can load instructions only fmo memory
+- ANy programs to run must be stored in memory
+- Main memory is commonly implemented in DRAM - Dynamic RAM
+- Only static programs are store in ROM or EEPROM (Electronically Erasable Programmable ROM)
+
+- All forms of memory provide an array of words, each word having its own address
+- Storing is achieved through a sequence of load or store instructions to specific memory addresses
+- Load moves a word from main memory to an internal register within the CPU
+- Store moves the content of a register to RAM/Main memory
+- For a system with a von Neumann architecture,
+-  The system fetches an instruction from memory and stores the instruction in the instruction register in the CPU
+- The instruction is decoded and may cause operands to be fetched from memory and stored in some internal register
+- After the instruction on the operands has been executed, the result may be stored back in memory
+
